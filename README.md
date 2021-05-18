@@ -23,6 +23,15 @@ It simulates the I2C sensor (which will be a slave one) and the driver (a master
 
 ![image](https://user-images.githubusercontent.com/74544161/118664017-6c7c0300-b7f1-11eb-9c33-bd7ca719481b.png)
 
+The addresses of the registers and the device are given inside this file to simulate the functioning of the devices together :
+
+![image](https://user-images.githubusercontent.com/74544161/118672580-a6043c80-b7f8-11eb-9381-4e303e6d6df6.png)
+
+
+As our device is read-only, we have forced the rw value to 1 so that it never get caught in the write case :
+
+![image](https://user-images.githubusercontent.com/74544161/118672710-bddbc080-b7f8-11eb-8c63-af704addd0ad.png)
+
 Once again the driver will have to follow a procedure :
   - s0 : Addressing for the configuration --- s0 if busy = 1 & s1 if busy = 0 ;
   - s1 : Configuration --- s1 if reg_rdy = 0 & s2 if reg_rdy = 1 ;
@@ -30,7 +39,6 @@ Once again the driver will have to follow a procedure :
   - s3 : Choice of the register for the measure --- s3 if busy = 1 & s4 if busy = 0 ;
   - s4 : Awaiting for the master to be ready --- s4 if reg_rdy = 0 & s5 if reg_rdy = 1 ;
   - s5 : The master reads the measure --- s5 if val_rdy = 0 & s3 if val_rdy = 1.
-test
 
 
 ## 3) Arduino card - main.c
