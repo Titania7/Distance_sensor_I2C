@@ -43,5 +43,15 @@ Once again the driver will have to follow a procedure :
 
 ## 3) Arduino card - main.c
 
+The C code is very simple. It has been adapted from a led-driven display and only takes the output of the sensor to display it on the serial output of the FPGA DEO-nano-SoC card. We initially use the h2p_lw_regout_addr pointer which has the distance information, as illustrated below :
+
+![image](https://user-images.githubusercontent.com/74544161/118673886-a94bf800-b7f9-11eb-9bc1-eb5edfcaf0cf.png)
+
+and then we simply send it into the serial output with a printf :
+
+![image](https://user-images.githubusercontent.com/74544161/118674185-e2846800-b7f9-11eb-9394-e643657b3c1e.png)
+
+
+
 ## 4) Executables
 The last part of the project is the executable file loaded called "Distance_sensor-Dehon-Moulin" made with "Makefile".
