@@ -19,6 +19,10 @@ The important data we will use are the following, extracted from the general I2C
 
 ## 2) I2C distance sensor (VHDL coding for the testbench simuation) - I2C_M_TB.vhd
 The role of this file is to simulate the working of the device by checking all the states it should encounter in a real practical case.
+It simulates the I2C sensor (which will be a slave one) and the driver (a master) together, by plugging their respective entries together as illustrated in the figure below :
+
+![image](https://user-images.githubusercontent.com/74544161/118664017-6c7c0300-b7f1-11eb-9c33-bd7ca719481b.png)
+
 
 
 
