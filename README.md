@@ -55,3 +55,6 @@ and then we simply send it into the serial output with a printf :
 
 ## 4) Executables
 The last part of the project is the executable file loaded called "Distance_sensor-Dehon-Moulin" made with "Makefile".
+
+## 5) Demonstration video
+The video available is called 'i2c_sensor_vid.mp4'.
