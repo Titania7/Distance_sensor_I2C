@@ -31,7 +31,7 @@ The addresses of the registers and the device are given inside this file to simu
 ![image](https://user-images.githubusercontent.com/74544161/118672580-a6043c80-b7f8-11eb-9381-4e303e6d6df6.png)
 
 
-As our device is read-only, we have forced the rw value to 1 so that it never get caught in the write case :
+The ADDR register has the values that we want to writ and the DEVICE register has the the sensor's i2c address. As our device is read-only, we have forced the rw value to 1 so that it never get caught in the write case :
 
 ![image](https://user-images.githubusercontent.com/74544161/118672710-bddbc080-b7f8-11eb-8c63-af704addd0ad.png)
 
