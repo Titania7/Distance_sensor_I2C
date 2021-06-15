@@ -4,7 +4,7 @@ I2C driver, testbench and software protocol for a Distance I2C sensor
 ## 0) Goal of the project
 The aim of this project is to create a tutorial of how to retrieve distance via a sensor using an FPGA board and the I2C structure. In this project we will combine the software and hardware part of our hardware. 
 
-## 1) I2C driver - I2C_M.vhd
+## 1) I2C driver
 This file takes into account the major parts of the components we will use in this project.
 The sensor entity (which is an I2C type) is exposed with its important features like its input clock, its bus clock, enable pin, rw variable etc...
 The important data we will use are the following, extracted from the general I2C master state diagram figure below :
