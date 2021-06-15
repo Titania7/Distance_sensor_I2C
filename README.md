@@ -35,15 +35,6 @@ The ADDR register has the values that we want to writ and the DEVICE register ha
 
 ![image](https://user-images.githubusercontent.com/74544161/118672710-bddbc080-b7f8-11eb-8c63-af704addd0ad.png)
 
-Once again the driver will have to follow a procedure :
-  - s0 : Addressing for the configuration --- s0 if busy = 1 & s1 if busy = 0 ;
-  - s1 : Configuration --- s1 if reg_rdy = 0 & s2 if reg_rdy = 1 ;
-  - s2 : Awaiting of the measure --- s2 if val_rdy = 0 & s3 if val_rdy = 1 ;
-  - s3 : Choice of the register for the measure --- s3 if busy = 1 & s4 if busy = 0 ;
-  - s4 : Awaiting for the master to be ready --- s4 if reg_rdy = 0 & s5 if reg_rdy = 1 ;
-  - s5 : The master reads the measure --- s5 if val_rdy = 0 & s3 if val_rdy = 1.
-
-
 ## 3) Arduino card - main.c
 
 The C code is very simple. It has been adapted from a led-driven display and only takes the output of the sensor to display it on the serial output of the FPGA DEO-nano-SoC card. We initially use the h2p_lw_regout_addr pointer which has the distance information, as illustrated below :
