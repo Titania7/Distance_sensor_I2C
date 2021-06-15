@@ -6,7 +6,7 @@ JedecChain;
 	P ActionCode(Ign)
 		Device PartName(SOCVHPS) MfrSpec(OpMask(0));
 	P ActionCode(Cfg)
-		Device PartName(5CSEMA4U23) Path("C:/Users/Semi/MyProject/DE0-my_first_hps-fpga_base/") File("soc_system.sof") MfrSpec(OpMask(1));
+		Device PartName(5CSEMA4U23) Path("C:/Users/Semi/MyProject/DE0-my_first_hps-fpga_base_Final/") File("soc_system.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

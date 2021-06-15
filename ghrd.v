@@ -137,16 +137,16 @@ module ghrd(
   wire        hps_debug_reset;
   wire [27:0] stm_hw_events;
 
-  //my wires
-  
-  wire[7:0] reg1_to_bloc;
-  wire[7:0] reg2_to_bloc;
-  wire[7:0] reg3_to_bloc;
-  wire[7:0] bloc_to_reg_out;
-  
-  
 // connection of internal logics
   assign stm_hw_events    = {{13{1'b0}},SW, fpga_led_internal, fpga_debounced_buttons};
+  
+ 
+// My wires
+
+	wire [7:0] hps_reg_input;
+	//wire [7:0] reg2_to_bloc;
+	//wire [7:0] reg3_to_bloc;
+	wire [7:0] hps_reg_output;
 
 
 //=======================================================
@@ -155,6 +155,12 @@ module ghrd(
 
 
  soc_system u0 (
+ 
+ 	  .reg1_external_connection_export(hps_reg_input),
+	  //.reg2_external_connection_export(reg2_to_bloc),
+	  //.reg3_external_connection_export(reg3_to_bloc),
+	  .reg_out_external_connection_export(hps_reg_output),
+		
 		//Clock&Reset
 	  .clk_clk                               (FPGA_CLK1_50 ),                        //  clk.clk
 	  .reset_reset_n                         (1'b1         ),                        //  reset.reset_n
@@ -239,21 +245,25 @@ module ghrd(
 	  .hps_0_f2h_cold_reset_req_reset_n      (~hps_cold_reset)      						//  hps_0_f2h_cold_reset_req.reset_n
          
  );
- 
- 
-// my bloc
-	BLOC mybloc(
-		.CLOCK_50 (FPGA_CLK1_50),
-		.reg1 (reg1_to_bloc),
-		.reg2 (reg2_to_bloc),
-		.reg3 (reg3_to_bloc),
-		.reg_out (bloc1_to_reg_out),
-		.CL (GPIO_0[0]),
-		.SDA (GPIO_0[1])
 
+// My bloc
+
+  BLOC mybloc(
+	.CLOCK_50 (FPGA_CLK1_50),
+   .rst_n     (hps_fpga_reset_n),
+	.reg1	(hps_reg_output),
+	//.reg2	(reg2_to_bloc),
+	//.reg3	(reg3_to_bloc),
+	.reg_out	(hps_reg_input),
+	.CL (GPIO_1[0]),
+	.SDA (GPIO_1[1])
+	
 	);
 
-
+	
+	assign GPIO_1[2] = 1'd1;
+	assign GPIO_1[3] = hps_fpga_reset_n;
+	
 // Source/Probe megawizard instance
 hps_reset hps_reset_inst (
   .source_clk (FPGA_CLK1_50),

@@ -1,5 +1,5 @@
 #
-TARGET = Distance_sensor-Dehon-Moulin
+TARGET = HPS_DIST
 
 #
 CROSS_COMPILE = arm-linux-gnueabihf-

@@ -34,97 +34,99 @@
 
 int main() {
 
-	//pointer to the different address spaces
+   //pointer to the different address spaces
 
-	void *virtual_base;
-	void *axi_virtual_base;
-	int fd;
-
-
-	void *h2p_lw_regout_addr;
-	//void *h2p_lw_reg2_addr;
-	//void *h2p_lw_reg3_addr;
-	//void *h2p_lw_myBus_addr;
+   void *virtual_base;
+   void *axi_virtual_base;
+   int fd;
 
 
-	//void *h2p_led_addr; //led via AXI master
-	
+   void *h2p_lw_regout_addr;
+   void *h2p_lw_reg1_addr;
+   //void *h2p_lw_reg2_addr;
+   //void *h2p_lw_reg3_addr;
+   //void *h2p_lw_myBus_addr;
+
+
+   //void *h2p_led_addr; //led via AXI master
+   
 
 
 
-	// map the address space for the LED registers into user space so we can interact with them.
-	// we'll actually map in the entire CSR span of the HPS since we want to access various registers within that span
+   // map the address space for the LED registers into user space so we can interact with them.
+   // we'll actually map in the entire CSR span of the HPS since we want to access various registers within that span
 
-	if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) {
-		printf( "ERROR: could not open \"/dev/mem\"...\n" );
-		return( 1 );
-	}
+   if( ( fd = open( "/dev/mem", ( O_RDWR | O_SYNC ) ) ) == -1 ) {
+      printf( "ERROR: could not open \"/dev/mem\"...\n" );
+      return( 1 );
+   }
 
-	//lightweight HPS-to-FPGA bridge
-	virtual_base = mmap( NULL, HW_REGS_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, HW_REGS_BASE );
+   //lightweight HPS-to-FPGA bridge
+   virtual_base = mmap( NULL, HW_REGS_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd, HW_REGS_BASE );
 
-	if( virtual_base == MAP_FAILED ) {
-		printf( "ERROR: mmap() failed...\n" );
-		close( fd );
-		return( 1 );
-	}
+   if( virtual_base == MAP_FAILED ) {
+      printf( "ERROR: mmap() failed...\n" );
+      close( fd );
+      return( 1 );
+   }
 
-	//HPS-to-FPGA bridge
-	axi_virtual_base = mmap( NULL, HW_FPGA_AXI_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd,ALT_AXI_FPGASLVS_OFST );
+   //HPS-to-FPGA bridge
+   axi_virtual_base = mmap( NULL, HW_FPGA_AXI_SPAN, ( PROT_READ | PROT_WRITE ), MAP_SHARED, fd,ALT_AXI_FPGASLVS_OFST );
 
-	if( axi_virtual_base == MAP_FAILED ) {
-		printf( "ERROR: axi mmap() failed...\n" );
-		close( fd );
-		return( 1 );
-	}
+   if( axi_virtual_base == MAP_FAILED ) {
+      printf( "ERROR: axi mmap() failed...\n" );
+      close( fd );
+      return( 1 );
+   }
 
 
 //-----------------------------------------------------------
-	//configure the LEDs of the Golden Reference design
-	printf( "\n\n\n-----------Set the LEDs on-------------\n\n" );
+   //configure the LEDs of the Golden Reference design
+   //printf( "\n\n\n-----------Set the LEDs on-------------\n\n" );
 
-	//LED connected to the HPS-to-FPGA bridge
-	//h2p_led_addr=axi_virtual_base + ( ( unsigned long  )( 0x0 + PIO_LED_BASE ) & ( unsigned long)( HW_FPGA_AXI_MASK ) );
+   //LED connected to the HPS-to-FPGA bridge
+   //h2p_led_addr=axi_virtual_base + ( ( unsigned long  )( 0x0 + PIO_LED_BASE ) & ( unsigned long)( HW_FPGA_AXI_MASK ) );
 
-	//*(uint32_t *)h2p_led_addr = 0b10111100;
+   //*(uint32_t *)h2p_led_addr = 0b10111100;
 
 //-----------------------------------------------------------
-	//Adder test: Two registers are connected to a adder and place the result in the third register
-	printf( "\n\n\n----------- Test capteur de distance -------------\n\n" );
+   //Adder test: Two registers are connected to a adder and place the result in the third register
+   printf( "\n\n\n----------- Test capteur de distance -------------\n\n" );
 
-	//the address of the two input (reg1 and reg2) registers and the output register (reg3)
-	//h2p_lw_reg1_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + PIO_REG1_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
-	//h2p_lw_reg2_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + PIO_REG2_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
-	h2p_lw_regout_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + REG_OUT_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
-
-
-	//write into register to test the adder
-	//*(uint32_t *)h2p_lw_reg1_addr = 10;
-	//*(uint32_t *)h2p_lw_reg2_addr = 5;
-
-	
-	//read result of the adder from register 3
-	printf( "Distance = %d  cm \n", *((uint32_t *)h2p_lw_regout_addr));
+   //the address of the two input (reg1 and reg2) registers and the output register (reg3)
+   h2p_lw_reg1_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + REG1_BASE) & ( unsigned long)( HW_REGS_MASK ) );
+   //h2p_lw_reg2_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + PIO_REG2_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
+   h2p_lw_regout_addr=virtual_base + ( ( unsigned long  )( ALT_LWFPGASLVS_OFST + REG_OUT_BASE ) & ( unsigned long)( HW_REGS_MASK ) );
 
 
+   //write into register to test the adder
+   //*(uint32_t *)h2p_lw_reg1_addr = 10;
+   //*(uint32_t *)h2p_lw_reg2_addr = 5;
 
-
+   int i = 0;
+   //read result of the adder from register 3
+   for (i = 0; i < 100; ++i) {
+      printf( "Distance = %d  cm \n", *((uint32_t *)h2p_lw_reg1_addr));
+   }
 
 
 
-	if( munmap( virtual_base, HW_REGS_SPAN ) != 0 ) {
-		printf( "ERROR: munmap() failed...\n" );
-		close( fd );
-		return( 1 );
-	}
 
-	if( munmap( axi_virtual_base, HW_FPGA_AXI_SPAN ) != 0 ) {
-		printf( "ERROR: axi munmap() failed...\n" );
-		close( fd );
-		return( 1 );
-	}
 
-	close( fd );
 
-	return( 0 );
+   if( munmap( virtual_base, HW_REGS_SPAN ) != 0 ) {
+      printf( "ERROR: munmap() failed...\n" );
+      close( fd );
+      return( 1 );
+   }
+
+   if( munmap( axi_virtual_base, HW_FPGA_AXI_SPAN ) != 0 ) {
+      printf( "ERROR: axi munmap() failed...\n" );
+      close( fd );
+      return( 1 );
+   }
+
+   close( fd );
+
+   return( 0 );
 }

@@ -45,9 +45,9 @@ entity I2C_S_RX is
 	generic(
 		WR       : std_logic:='0';
 					 --11h(22h) device address
-		DADDR		: std_logic_vector(6 downto 0):= "0010001";
+		DADDR		: std_logic_vector(6 downto 0):= "1110000";
 					--00h sub address
-		ADDR		: std_logic_vector(7 downto 0):= "00000000"  		
+		ADDR		: std_logic_vector(7 downto 0):= "00000010"  		
 	);
 	port(
 		RST		: in std_logic;
