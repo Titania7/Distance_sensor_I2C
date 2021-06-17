@@ -55,3 +55,6 @@ The video available is called 'i2c_sensor_video.mp4'.
 
 ## 6) Other informations - tutorial
 Further information such as Testbench simulations can be found in **Tuto_I2C_Distance_Sensor.pdf**. This document explains: How to create a driver for an I2C distance sensor matching a DEO-nano-SoC FPGA chip with Quartus.
+
+#Bonus
+The proof of working stand inside the pptx file named Proof of concept.pptx"
